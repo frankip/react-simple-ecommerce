@@ -1,11 +1,13 @@
 import { useState } from "react"; 
 import ProductItem from "./ProductItem";
 
-function ProductList({ products }) { // Define the "ProductList" component that receives a prop called "products"
+function ProductList({ products }) { //receives a prop called "products"
 
-    const [clicked, setClicked] = useState('') // Define a state variable called "clicked" using the useState hook, initially set to an empty string
+    // Define a state variable called "clicked" using the useState hook, initially set to an empty string
+    const [clicked, setClicked] = useState('') 
 
-    function handleClickedItem(item) { // Define a function called "handleClickedItem" that takes an item parameter
+    // Define a function called "handleClickedItem" that takes an item parameter
+    function handleClickedItem(item) { 
         console.log('soe', item);
         setClicked(item.description) // Set the "clicked" state to the item's description
     }
