@@ -1,7 +1,8 @@
-function ProductItem() {
+function ProductItem({product}) {
     return (
         <>
             <h2>ProductItem</h2>
+            <p>{product.description}</p>
         </>);
 }
 
