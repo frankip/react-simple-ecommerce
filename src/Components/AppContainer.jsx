@@ -12,11 +12,18 @@ function AppContainer() {
     const [itemList, setItemList] = useState(data)
 
 
+    function handleUpdateItemList(newItem){
+        console.log('{ formData}', newItem);
+
+        setItemList([...itemList, newItem])
+    }
+
+
     return (
         <> {/* Use fragment syntax to wrap multiple elements */}
             <h2>App container</h2>
-            <Navbar/>
-            <NewEntryForm/>
+            <Navbar />
+            <NewEntryForm handleUpdateItemList={handleUpdateItemList}/>
             <Filter />
             <ProductList products={itemList}/> {/* Render the "ProductList" child component and pass down the "itemList" state as a prop */}
             <Footer />

@@ -1,35 +1,62 @@
 import { useState } from "react";
+import { v4 as uuid } from "uuid";
 
-function NewEntryForm() {
+function NewEntryForm({ handleUpdateItemList }) {
 
     // Define state variables for each input value
-    const [date, setDate] = useState("");
-    const [description, setDescription] = useState("");
-    const [category, setCategory] = useState("");
-    const [amount, setAmount] = useState("");
+    const [formData, setFormData] = useState({
+
+        date: '',
+        description: '',
+        category: '',
+        amount: ''
+    });
 
     // Define a function to handle form submission
     function handleSubmit(event) {
         event.preventDefault();
+
+        // Create a new item object with the form data and a unique id generated using the `uuid` library
+        const newItem = {
+            id: uuid().slice(0, 3), // the `uuid` library can be used to generate a unique id
+            date: formData.date,
+            category: formData.category,
+            description: formData.description,
+            amount: formData.amount,
+        };
+
         // Here you could send the form data to a server, update a database, etc.
-        console.log({ date, description, category, amount });
+
+        // Call the `handleUpdateItemList` function passed down from the parent component, passing in the new item object
+        handleUpdateItemList(newItem)
     }
 
     // Define an array of category options
     const categoryOptions = ["Food", "Transportation", "Entertainment", "Housing", "Utilities"];
 
+
+    function handleOnChange(event) {
+        // Extract the name and value of the changed input
+        const name = event.target.name
+        const value = event.target.value
+
+        // Update the form data state with the new input value
+        setFormData({
+            ...formData, [name]: value
+        });
+    }
     return (
         <form onSubmit={handleSubmit}>
             <label>Date:</label>
-            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            <input type="date" name="date" value={formData.date} onChange={handleOnChange} />
             <br />
 
             <label>Description:</label>
-            <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+            <input type="text" name="description" value={formData.description} onChange={handleOnChange} />
             <br />
 
             <label>Category:</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <select value={formData.category} name="category" onChange={handleOnChange} >
                 <option value="">Select a category</option>
                 {categoryOptions.map((option) => (
                     <option key={option} value={option}>
@@ -40,7 +67,7 @@ function NewEntryForm() {
             <br />
 
             <label>Amount:</label>
-            <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
+            <input type="number" name="amount" value={formData.amount} onChange={handleOnChange} />
             <br />
 
             <button type="submit">Submit</button>
