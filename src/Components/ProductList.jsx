@@ -10,7 +10,7 @@ function ProductList() {
 
             {
                 data.map((item)=>{
-                    return <ProductItem />
+                    return <ProductItem key={item.id}/>
 
                 })
 
