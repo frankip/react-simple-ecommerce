@@ -1,10 +1,20 @@
+import { data } from "../data/items";
 import ProductItem from "./ProductItem";
+
+
 
 function ProductList() {
     return (
         <>
             <h2>ProductList</h2>
-            <ProductItem />
+
+            {
+                data.map((item)=>{
+                    return <ProductItem />
+
+                })
+
+            }
         </>);
 }
 
