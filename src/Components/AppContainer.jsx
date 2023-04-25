@@ -10,6 +10,7 @@ import NewEntryForm from "./NewEntryForm";
 
 function AppContainer() {
     const [itemList, setItemList] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('')
 
     const baseUrl= ` http://localhost:8081/transactions`
 
@@ -41,14 +42,25 @@ function AppContainer() {
           setItemList([...itemList, newItem]); 
     }
 
+    const itemsToDisplay = itemList.filter((item) => {
+        console.log('serc', item);
+        if (searchTerm) return item.description.toLowerCase().includes(searchTerm)
+        return itemList;
+      });
+
+    function handleSearchChange(event) {
+        setSearchTerm(event.target.value)
+      }
+
+
 
     return (
         <> {/* Use fragment syntax to wrap multiple elements */}
             <h2>App container</h2>
             <Navbar />
             <NewEntryForm handleUpdateItemList={handleUpdateItemList}/>
-            <Filter />
-            <ProductList products={itemList}/> {/* pass down the "itemList" state as a prop */}
+            <Filter onSearchChange={handleSearchChange} searchTerm={searchTerm}/>
+            <ProductList products={itemsToDisplay}/> {/* pass down the "itemList" state as a prop */}
             <Footer />
         </>);// Close the fragment
 }
