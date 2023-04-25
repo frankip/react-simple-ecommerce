@@ -11,10 +11,18 @@ function NewEntryForm({ handleUpdateItemList }) {
         category: '',
         amount: ''
     });
+    const [formError, setFormError ] = useState(null)
 
     // Define a function to handle form submission
     function handleSubmit(event) {
         event.preventDefault();
+
+        const error = validateInputs(formData);
+
+        if (error) {
+          setFormError(error);
+          return;
+        }
 
         // Create a new item object with the form data and a unique id generated using the `uuid` library
         const newItem = {
@@ -28,7 +36,10 @@ function NewEntryForm({ handleUpdateItemList }) {
         // Here you could send the form data to a server, update a database, etc.
 
         // Call the `handleUpdateItemList` function passed down from the parent component, passing in the new item object
-        handleUpdateItemList(newItem)
+        if(!formError){
+            handleUpdateItemList(newItem)
+
+        }
     }
 
     // Define an array of category options
@@ -45,8 +56,25 @@ function NewEntryForm({ handleUpdateItemList }) {
             ...formData, [name]: value
         });
     }
+
+    function validateInputs(formData) {
+        const { date, description, category, amount } = formData;
+      
+        if (!date || !description || !category || !amount) {
+          return "All fields are required";
+        }
+      
+        if (isNaN(amount) || amount <= 0) {
+          return "Amount must be a positive number";
+        }
+      
+        return null;
+      }
+      
+
     return (
         <form onSubmit={handleSubmit}>
+             {formError && <p className="header">{formError}</p>}
             <label>Date:</label>
             <input type="date" name="date" value={formData.date} onChange={handleOnChange} />
             <br />
