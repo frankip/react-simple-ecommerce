@@ -1,16 +1,16 @@
-import { data } from "../data/items";
+
 import ProductItem from "./ProductItem";
 
 
 
-function ProductList() {
+function ProductList({ products }) {
     return (
         <>
             <h2>ProductList</h2>
 
             {
-                data.map((item)=>{
-                    return <ProductItem key={item.id}/>
+                products.map((item)=>{
+                    return <ProductItem key={item.id} product={item}/>
 
                 })
 
