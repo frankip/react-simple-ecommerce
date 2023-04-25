@@ -1,4 +1,4 @@
-import { useState } from "react"; // Import the "useState" hook from the "react" library
+import { useEffect, useState } from "react"; // Import the "useState" hook from the "react" library
 
 import Filter from "./Filter";
 import Footer from "./Footer";
@@ -9,13 +9,36 @@ import { data } from "../data/items";  // Import the "data" array of items from 
 import NewEntryForm from "./NewEntryForm";
 
 function AppContainer() {
-    const [itemList, setItemList] = useState(data)
+    const [itemList, setItemList] = useState([]);
 
+    const baseUrl= ` http://localhost:8081/transactions`
 
+    useEffect(()=>{
+        fetch(baseUrl)
+        .then(res => res.json())
+        .then(data=> setItemList(data))
+
+        console.log('--', data);
+    }, []);
+
+    // Define a callback function to handle the submission of new items
     function handleUpdateItemList(newItem){
         console.log('{ formData}', newItem);
 
-        setItemList([...itemList, newItem])
+        // Make a POST request to the server with the new item data
+        fetch(baseUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newItem),
+          })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.error(err));
+        
+            // Update the "itemList" state with the new item
+          setItemList([...itemList, newItem]); 
     }
 
 
@@ -25,7 +48,7 @@ function AppContainer() {
             <Navbar />
             <NewEntryForm handleUpdateItemList={handleUpdateItemList}/>
             <Filter />
-            <ProductList products={itemList}/> {/* Render the "ProductList" child component and pass down the "itemList" state as a prop */}
+            <ProductList products={itemList}/> {/* pass down the "itemList" state as a prop */}
             <Footer />
         </>);// Close the fragment
 }
