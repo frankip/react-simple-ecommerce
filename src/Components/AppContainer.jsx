@@ -56,7 +56,6 @@ function AppContainer() {
 
     return (
         <> {/* Use fragment syntax to wrap multiple elements */}
-            <h2>App container</h2>
             <Navbar />
             <NewEntryForm handleUpdateItemList={handleUpdateItemList}/>
             <Filter onSearchChange={handleSearchChange} searchTerm={searchTerm}/>

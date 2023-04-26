@@ -1,7 +1,6 @@
 function Filter({onSearchChange, searchTerm}) {
     return (
         <>
-            <h2>Filter</h2>
             <div className="Filter">
                 <input
                     type="text"
